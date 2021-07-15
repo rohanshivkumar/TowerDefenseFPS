@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class wallScript : MonoBehaviour
+public class wallScript : PlaceableBlock
 {
-    void OnCollisionEnter(Collision collision)
+
+    public void Start()
     {
-        Debug.Log(collision.collider.name);
-        Debug.Log("hit wall");
+        this.setDimensions(2,2,2);
+        //this.prefabObject
     }
+   
 }
