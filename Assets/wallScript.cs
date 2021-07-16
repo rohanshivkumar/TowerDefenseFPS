@@ -7,7 +7,7 @@ public class wallScript : PlaceableBlock
 
     public void Start()
     {
-        this.setDimensions(2,2,2);
+        this.setDimensions(1,1,2);
         //this.prefabObject
     }
    

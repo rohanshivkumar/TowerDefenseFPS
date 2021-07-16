@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class PlaceableBlock : MonoBehaviour
 {
-   private int width;
-   private int height;
-   private int depth;
+    public int width;
+    public int height;
+    public int depth;
 
-   public GameObject prefabObject;
-   [SerializeField] public Material redInvalid;
-   [SerializeField] public Material greenValid;
-    private Transform childCenter;
+    public int widthCoefficient = 1;
+    public int depthCoefficient = 1;
+    public GameObject prefabObject;
+    public int[] originPosition;
+    public List<int[]> blockPositions;
+   [SerializeField] Material redInvalid;
+   [SerializeField] Material greenValid;
+   [SerializeField] Material transparent;
+    private Transform childcubeCenter;
+    private Transform childobjectCenter;
     public void Awake()
     {
         Debug.Log(this.transform.name);
-        childCenter = this.transform.GetChild(0);
+        childcubeCenter = this.transform.GetChild(0);
+        childobjectCenter = this.transform.GetChild(1);
+        blockPositions = new List<int[]>();
     }
     public void setDimensions(int x, int y, int z)
     {
@@ -24,38 +32,74 @@ public class PlaceableBlock : MonoBehaviour
         this.depth =z;
         
     }
+    public void getDimensions(out int x, out int y, out int z)
+    {
+        x = this.width;
+        y = this.height;
+        z = this.depth;
+        
+    }
+    private void calculateWDCoefficients()
+    {
+        if(childobjectCenter.transform.localEulerAngles.y == 0)
+        {
+            widthCoefficient =1;
+            depthCoefficient = 1;
+        }
+        else if(childobjectCenter.transform.localEulerAngles.y == 90)
+        {
+            widthCoefficient =1;
+            depthCoefficient = 1;
+        }
+        else if(childobjectCenter.transform.localEulerAngles.y == 180)
+        {
+            widthCoefficient = -1;
+            depthCoefficient = -1;
+        }
+        else if(childobjectCenter.transform.localEulerAngles.y == -90)
+        {
+            widthCoefficient = -1;
+            depthCoefficient = 1;
+        }
+    }
     public void RotatePlacement(int direction)
     {
         if(direction ==1)
         {
-            childCenter.transform.Rotate(0.0f, 90.0f, 0.0f, Space.World);
+            childobjectCenter.transform.Rotate(0.0f, 90.0f, 0.0f, Space.World);
         }
         else if(direction ==-1)
         {
-            childCenter.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
+            childobjectCenter.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
         }
+        SwapWidthDepth();
+        Debug.Log ("Swapped");
+        calculateWDCoefficients();
+        Debug.Log("Calculated New WD coef");
+       
         
     }
     private void SwapWidthDepth()
     {
         int tempvalue = width;
         this.width = this.depth;
-        this.depth = width;
+        this.depth = tempvalue;
     }
 
     public void SetMaterialColor(int mat)
     {
         if(mat == 1)
         {
-            gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = redInvalid;
+            childcubeCenter.gameObject.GetComponent<Renderer>().material = redInvalid;
             //set red color for all children
         }
         else if(mat ==2)
         {
-            gameObject.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = greenValid;
+            childcubeCenter.gameObject.GetComponent<Renderer>().material = greenValid;
+        }
+        else if(mat ==3)
+        {
+            childcubeCenter.gameObject.GetComponent<Renderer>().material = transparent;
         }
     }
-
-    
-
 }

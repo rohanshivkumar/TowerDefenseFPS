@@ -40,7 +40,7 @@ public class Grid
             {
                 for (int z =0; z< gridArray.GetLength(2);z++)
                 {   
-                    Debug.Log(" " + x + y + z);
+                    //Debug.Log(" " + x + y + z);
                     debugTextArray[x,y,z] = CreateWorldText(textParent.transform,gridArray[x,y,z].ToString(), GetWorldPosition(x,y,z)+ new Vector3(cellSize,cellSize,cellSize)*0.5f);
                 }
                
@@ -70,24 +70,61 @@ public class Grid
         SetValue(x,y,z,value);
 
     }
-    public int GetValidPlacement(Vector3 worldPosition)
+    public void PlaceBlock(PlaceableBlock block, Vector3 worldPosition)
+    {
+        int x,y,z;
+        block.getDimensions(out x,out y, out z);
+        int originx, originy, originz;
+        GetXY(worldPosition,out originx, out originy, out originz);
+        blocksArray[originx,originy,originz] = block;
+        block.originPosition = new int[3] {originx,originy,originz};
+
+        for(int i=0;i<x;i++)
+        {
+            for(int j=0;j<y;j++)
+            {
+                for(int k=0;k<z;k++)
+                {   
+                    int x1 = originx+block.widthCoefficient*i;
+                    int y1 = originy + j;
+                    int z1 = originz+block.depthCoefficient*k;
+                    int[] arr = new int[3]{x1,y1,z1};
+                    block.blockPositions.Add(arr);
+                    SetValue(x1,y1,z1,1);
+                }
+            }
+        }
+
+
+    }
+
+    
+    public int GetValidPlacement(Vector3 worldPosition, PlaceableBlock block)
     {
         int x,y,z;
         GetXY(worldPosition,out x, out y, out z);
-        if(x>=0 && y>=0 && z>=0 && x < width &&  y < height && z < depth)
+        for(int i=0;i<block.width;i++)
         {
-            if(gridArray[x,y,z] == 0)
+            for(int j=0;j<block.height;j++)
             {
-                return 0;
-            }
-            else if (gridArray[x,y,z] == 1)
-            {
-            return 1;
+                for(int k=0;k<block.depth;k++)
+                {
+                    if(((x+block.widthCoefficient*i)>=0 && (y+j)>=0 && (z+block.depthCoefficient*k)>=0 && (x+block.widthCoefficient*i) < width &&  (y+j) < height && (z+block.depthCoefficient*k) < depth))
+                    {
+                        if(gridArray[x+block.widthCoefficient*i,y+j,z+block.depthCoefficient*k] != 0)
+                        {
+                            return 1;
+                        }  
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                        
+                }
             }
         }
-        return -1;
-        
-        
+        return 0;       
     }
     private Vector3 GetWorldPosition(int x, int y, int z)
     {

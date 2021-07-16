@@ -13,11 +13,16 @@ public class testing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        grid = new Grid(3,2,3,3f, new Vector3(-5,0,-8));
+        grid = new Grid(4,1,3,3f, new Vector3(-5,0,-8));
         isBuilding = false;
         wall = new wallScript();
     }
 
+    private void MakeNewTemp()
+    {
+        tempObject= Instantiate(wallObject,new Vector3(-5f,-5f,-5f),Quaternion.identity);
+        wall = tempObject.GetComponent<wallScript>();
+    }
     // Update is called once per frame
     void Update()
     {   
@@ -26,10 +31,8 @@ public class testing : MonoBehaviour
             
             if(isBuilding == false)
             {
-                
                 tempObject= Instantiate(wallObject,new Vector3(-5f,-5f,-5f),Quaternion.identity);
                 wall = tempObject.GetComponent<wallScript>();
-                Debug.Log(tempObject.transform.name);
                 isBuilding = true;
             }
             else if(isBuilding == true)
@@ -51,17 +54,25 @@ public class testing : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 
-                if(Input.GetKeyDown(KeyCode.K) && tempObject!=null)
+                if(Input.GetKeyDown(KeyCode.Q) && tempObject!=null)
+                {
+                    wall.RotatePlacement(-1);
+                } 
+                if(Input.GetKeyDown(KeyCode.E) && tempObject!=null)
                 {
                     wall.RotatePlacement(1);
-                }    
-                int canPlace = grid.GetValidPlacement(hit.point);
+                }       
+                int canPlace = grid.GetValidPlacement(hit.point,wall);
                 // if valid placement
+                Debug.Log(" " + wall.widthCoefficient + " " + wall.depthCoefficient);
                 if(canPlace == 0)
                 {
                     if(Input.GetKeyDown(KeyCode.X))
                     {
-                        grid.SetValue(hit.point,1);
+                        wall.SetMaterialColor(3);
+                        grid.PlaceBlock(wall,hit.point);
+                        MakeNewTemp();
+                        
                     }
                     tempObject.transform.position = grid.SnapObjectToGrid(hit.point);
                     wall.SetMaterialColor(2);
@@ -77,7 +88,12 @@ public class testing : MonoBehaviour
                 }
                 else if(canPlace == -1)
                 {
-                    //Debug.Log("Invalid");
+                    //Debug.Log("Already filled");
+                    Debug.Log("out of bounds");
+                    tempObject.transform.position = grid.SnapObjectToGrid(hit.point);
+                    //tempObject.GetComponent<Renderer>().material.SetColor("_BaseColor", Color.red);
+                    wall.SetMaterialColor(1);
+                    
                 }
             }
         }
