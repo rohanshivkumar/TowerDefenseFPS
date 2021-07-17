@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1346,6 +1346,30 @@ PrefabInstance:
       propertyPath: minimumJumpHeight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637142065336482309, guid: 890904d5fe32a467988fce1d029de178, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7723068225846951478, guid: 890904d5fe32a467988fce1d029de178, type: 3}
       propertyPath: WallRun
       value: 
@@ -1380,7 +1404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7723068226365086975, guid: 890904d5fe32a467988fce1d029de178, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7723068226661162233, guid: 890904d5fe32a467988fce1d029de178, type: 3}
       propertyPath: m_Enabled
