@@ -26,6 +26,18 @@ public class testing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+       
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+        RaycastHit hit;
+         if(Input.GetKeyDown(KeyCode.F))
+        {
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                grid.DeleteBlock(hit.point);
+            }
+            
+        }
+        
         if(Input.GetKeyDown(KeyCode.P))
         {   
             
@@ -49,8 +61,7 @@ public class testing : MonoBehaviour
         {
             //Rotate object
             
-            Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
-            RaycastHit hit;
+            
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 

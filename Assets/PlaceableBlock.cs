@@ -41,23 +41,33 @@ public class PlaceableBlock : MonoBehaviour
     }
     private void calculateWDCoefficients()
     {
+        
         if(childobjectCenter.transform.localEulerAngles.y == 0)
         {
+            Debug.Log(new Vector3(3f * this.width/2.0f, 3f * this.height/2.0f, 3f * this.depth/2.0f));
+            childcubeCenter.transform.localPosition = new Vector3(3f * this.width/2.0f, 3f * this.height/2.0f, 3f * this.depth/2.0f);
+            childcubeCenter.transform.localScale = new Vector3(this.width * 3f, this.height *3f, this.depth *3f);
             widthCoefficient =1;
             depthCoefficient = 1;
         }
         else if(childobjectCenter.transform.localEulerAngles.y == 90)
         {
+            childcubeCenter.transform.localPosition = new Vector3(3f * this.width/2.0f, 3f * this.height/2.0f, 3f * this.depth/2.0f);
+            childcubeCenter.transform.localScale = new Vector3(this.width * 3f, this.height *3f, this.depth *3f);
             widthCoefficient =1;
             depthCoefficient = 1;
         }
         else if(childobjectCenter.transform.localEulerAngles.y == 180)
-        {
+        {   
+            childcubeCenter.transform.localPosition = new Vector3(3f * this.width/2.0f, 3f * this.height/2.0f, 0f * this.depth/2.0f);
+            childcubeCenter.transform.localScale = new Vector3(this.width * 3f, this.height *3f, this.depth *3f);
             widthCoefficient = -1;
             depthCoefficient = -1;
         }
-        else if(childobjectCenter.transform.localEulerAngles.y == -90)
+        else if(childobjectCenter.transform.localEulerAngles.y == 270)
         {
+            childcubeCenter.transform.localPosition = new Vector3(0f * this.width/2.0f, 3f * this.height/2.0f, 3f * this.depth/2.0f);
+            childcubeCenter.transform.localScale = new Vector3(this.width * 3f, this.height *3f, this.depth *3f);
             widthCoefficient = -1;
             depthCoefficient = 1;
         }
@@ -67,10 +77,12 @@ public class PlaceableBlock : MonoBehaviour
         if(direction ==1)
         {
             childobjectCenter.transform.Rotate(0.0f, 90.0f, 0.0f, Space.World);
+            
         }
         else if(direction ==-1)
         {
             childobjectCenter.transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
+            
         }
         SwapWidthDepth();
         Debug.Log ("Swapped");
@@ -102,4 +114,9 @@ public class PlaceableBlock : MonoBehaviour
             childcubeCenter.gameObject.GetComponent<Renderer>().material = transparent;
         }
     }
+    public void ActivateColliders()
+    {
+        //TODO
+    }
+    
 }

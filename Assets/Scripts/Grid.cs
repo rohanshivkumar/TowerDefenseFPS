@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid
+public class Grid : MonoBehaviour
 {
     private int width;
     private int height;
@@ -70,6 +70,35 @@ public class Grid
         SetValue(x,y,z,value);
 
     }
+    public PlaceableBlock GetBlockAtPosition(Vector3 worldPosition)
+    {
+        int x,y,z;
+        GetXY(worldPosition,out x, out y, out z);
+        if(blocksArray[x,y,z] != null)
+        {
+            return blocksArray[x,y,z];
+        }
+        return null;
+    }
+    public void DeleteBlock(Vector3 worldPosition)
+    {
+        PlaceableBlock tempBlock = GetBlockAtPosition(worldPosition);
+        if(tempBlock!=null)
+        {
+            for( int pos = 0; pos<tempBlock.blockPositions.Count; pos++)
+            {
+                int x1 = tempBlock.blockPositions[pos][0];
+                int y1 = tempBlock.blockPositions[pos][1];
+                int z1 = tempBlock.blockPositions[pos][2];
+                blocksArray[x1,y1,z1] = null;
+                SetValue(x1,y1,z1,0);
+                
+            }
+            Destroy(tempBlock.gameObject);
+        }
+    
+    }
+
     public void PlaceBlock(PlaceableBlock block, Vector3 worldPosition)
     {
         int x,y,z;
@@ -89,6 +118,7 @@ public class Grid
                     int y1 = originy + j;
                     int z1 = originz+block.depthCoefficient*k;
                     int[] arr = new int[3]{x1,y1,z1};
+                    blocksArray[x1,y1,z1] = block;
                     block.blockPositions.Add(arr);
                     SetValue(x1,y1,z1,1);
                 }
@@ -137,5 +167,6 @@ public class Grid
         GetXY(snapPosition,out x,out y,out z);
         return GetWorldPosition(x,y,z);
     }
+    
    
 }
